@@ -7,7 +7,7 @@ namespace FinancialApp
 {
     public partial class Form1 : Form
     {
-
+        
         public Form1()
         {
             InitializeComponent();
@@ -144,12 +144,7 @@ namespace FinancialApp
                 return;
             }
 
-            // Ensure a user is logged in
-            if (Session.LoggedInUserId == -1)
-            {
-                MessageBox.Show("No user is logged in. Please log in to add a transaction.", "Authentication Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            DateTime selectedDate = transactionDatePicker.Value; // Get the selected date
 
             try
             {
@@ -157,14 +152,17 @@ namespace FinancialApp
                 using (var connection = new NpgsqlConnection(Session.ConnectionString))
                 {
                     connection.Open();
-                    string query = "INSERT INTO transactions (description, amount, date, type, user_id) VALUES (@description, @amount, @date, @type, @user_id)";
+                    string query = @"
+                INSERT INTO transactions (description, amount, date, type, user_id) 
+                VALUES (@description, @amount, @date, @type, @user_id)";
+
                     using (var command = new NpgsqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@description", descriptionTextBox.Text);
                         command.Parameters.AddWithValue("@amount", amount);
-                        command.Parameters.AddWithValue("@date", DateTime.Now); // Current timestamp
+                        command.Parameters.AddWithValue("@date", selectedDate); // Use the selected date
                         command.Parameters.AddWithValue("@type", transactionTypeComboBox.SelectedItem.ToString());
-                        command.Parameters.AddWithValue("@user_id", Session.LoggedInUserId); // Use the logged-in user's ID
+                        command.Parameters.AddWithValue("@user_id", Session.LoggedInUserId);
 
                         command.ExecuteNonQuery();
                     }
@@ -174,6 +172,7 @@ namespace FinancialApp
                 descriptionTextBox.Text = string.Empty;
                 amountTextBox.Text = string.Empty;
                 transactionTypeComboBox.SelectedIndex = 0;
+                transactionDatePicker.Value = DateTime.Now; // Reset to today
 
                 // Refresh the DataGridView
                 LoadData(Session.LoggedInUserId);
@@ -186,6 +185,7 @@ namespace FinancialApp
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void deleteTransactionButton_Click(object sender, EventArgs e)
@@ -311,6 +311,12 @@ namespace FinancialApp
                 return;
             }
 
+            if (Session.LoggedInUserId == -1)
+            {
+                MessageBox.Show("No user is logged in. Please log in to view reports.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             string reportType = reportTypeComboBox.SelectedItem.ToString();
             string query = string.Empty;
 
@@ -332,6 +338,23 @@ namespace FinancialApp
                     TO_CHAR(date, 'YYYY-MM-DD')
                 ORDER BY 
                     day DESC;";
+                    break;
+
+                case "Weekly":
+                    query = @"
+                SELECT 
+                    TO_CHAR(DATE_TRUNC('week', date), 'YYYY-MM-DD') AS week_start, 
+                    COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) AS total_income,
+                    COALESCE(SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END), 0) AS total_expense,
+                    COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE -amount END), 0) AS balance
+                FROM 
+                    transactions
+                WHERE 
+                    user_id = @user_id
+                GROUP BY 
+                    DATE_TRUNC('week', date)
+                ORDER BY 
+                    week_start DESC;";
                     break;
 
                 case "Monthly":
@@ -400,11 +423,11 @@ namespace FinancialApp
         }
 
 
-        
+
+
 
         private void Logout()
         {
-            // Confirm logout
             var result = MessageBox.Show(
                 "Are you sure you want to log out?",
                 "Confirm Logout",
@@ -416,6 +439,10 @@ namespace FinancialApp
             {
                 // Clear session
                 Session.LoggedInUserId = -1;
+
+                // Clear reports and transactions
+                dataGridView1.DataSource = null; // Clear transaction data
+                dataGridView2.DataSource = null; // Clear report data
 
                 // Redirect to LoginForm
                 this.Hide(); // Hide the current form
@@ -436,9 +463,140 @@ namespace FinancialApp
         }
 
 
+
         private void logoutButton_Click(object sender, EventArgs e)
         {
             Logout();
         }
+
+        private void deleteAllButton_Click(object sender, EventArgs e)
+        {
+            if (Session.LoggedInUserId == -1)
+            {
+                MessageBox.Show("No user is logged in.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirmResult = MessageBox.Show(
+                "Are you sure you want to delete all transactions? This action cannot be undone.",
+                "Confirm Delete All",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    using (var connection = new NpgsqlConnection(Session.ConnectionString))
+                    {
+                        connection.Open();
+                        using (var transaction = connection.BeginTransaction())
+                        {
+                            try
+                            {
+                                string query = "DELETE FROM transactions WHERE user_id = @user_id;";
+                                using (var command = new NpgsqlCommand(query, connection, transaction))
+                                {
+                                    command.Parameters.AddWithValue("@user_id", Session.LoggedInUserId);
+                                    command.ExecuteNonQuery();
+                                }
+
+                                transaction.Commit();
+                                MessageBox.Show("All transactions have been deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                // Refresh DataGridView and Balance
+                                LoadData(Session.LoggedInUserId);
+                                UpdateCurrentBalance();
+                            }
+                            catch
+                            {
+                                transaction.Rollback();
+                                throw;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred while deleting transactions: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void updateAllButton_Click(object sender, EventArgs e)
+        {
+            if (Session.LoggedInUserId == -1)
+            {
+                MessageBox.Show("No user is logged in.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (var connection = new NpgsqlConnection(Session.ConnectionString))
+                {
+                    connection.Open();
+                    using (var transaction = connection.BeginTransaction())
+                    {
+                        try
+                        {
+                            foreach (DataGridViewRow row in dataGridView1.Rows)
+                            {
+                                if (row.IsNewRow) continue;
+
+                                // Retrieve updated values
+                                int transactionId = Convert.ToInt32(row.Cells["id"].Value);
+                                string description = row.Cells["description"].Value?.ToString();
+                                decimal amount = Convert.ToDecimal(row.Cells["amount"].Value);
+                                string type = row.Cells["typeComboBox"].Value?.ToString();
+
+                                if (string.IsNullOrWhiteSpace(description) || string.IsNullOrWhiteSpace(type))
+                                {
+                                    throw new Exception("Invalid data in one or more rows.");
+                                }
+
+                                // Update the transaction
+                                string query = @"
+                            UPDATE transactions
+                            SET description = @description,
+                                amount = @amount,
+                                type = @type
+                            WHERE id = @id AND user_id = @user_id;
+                        ";
+
+                                using (var command = new NpgsqlCommand(query, connection, transaction))
+                                {
+                                    command.Parameters.AddWithValue("@id", transactionId);
+                                    command.Parameters.AddWithValue("@description", description);
+                                    command.Parameters.AddWithValue("@amount", amount);
+                                    command.Parameters.AddWithValue("@type", type);
+                                    command.Parameters.AddWithValue("@user_id", Session.LoggedInUserId);
+
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+
+                            transaction.Commit();
+                            MessageBox.Show("All transactions have been updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            // Refresh DataGridView and Balance
+                            LoadData(Session.LoggedInUserId);
+                            UpdateCurrentBalance();
+                        }
+                        catch
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while updating transactions: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }

@@ -47,36 +47,41 @@
             reportTypeComboBox = new ComboBox();
             dataGridView2 = new DataGridView();
             label8 = new Label();
+            transactionDatePicker = new DateTimePicker();
+            label9 = new Label();
+            updateAllButton = new Button();
+            deleteAllButton = new Button();
+            label10 = new Label();
+            label11 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(19, 352);
-            dataGridView1.Margin = new Padding(3, 4, 3, 4);
+            dataGridView1.Location = new Point(17, 295);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(713, 309);
+            dataGridView1.Size = new Size(624, 225);
             dataGridView1.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 28F);
-            label1.Location = new Point(103, 9);
+            label1.Font = new Font("Segoe UI", 30F);
+            label1.Location = new Point(91, -1);
             label1.Name = "label1";
-            label1.Size = new Size(573, 62);
+            label1.Size = new Size(487, 54);
             label1.TabIndex = 1;
             label1.Text = "Personal Finance Manager";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(19, 155);
+            label2.Font = new Font("Segoe UI", 11F);
+            label2.Location = new Point(17, 87);
             label2.Name = "label2";
             label2.Size = new Size(92, 20);
             label2.TabIndex = 2;
@@ -85,7 +90,8 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(19, 201);
+            label3.Font = new Font("Segoe UI", 11F);
+            label3.Location = new Point(17, 124);
             label3.Name = "label3";
             label3.Size = new Size(69, 20);
             label3.TabIndex = 3;
@@ -94,7 +100,8 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(19, 263);
+            label4.Font = new Font("Segoe UI", 11F);
+            label4.Location = new Point(17, 200);
             label4.Name = "label4";
             label4.Size = new Size(47, 20);
             label4.TabIndex = 4;
@@ -102,36 +109,32 @@
             // 
             // descriptionTextBox
             // 
-            descriptionTextBox.Location = new Point(199, 152);
-            descriptionTextBox.Margin = new Padding(3, 4, 3, 4);
+            descriptionTextBox.Location = new Point(174, 87);
             descriptionTextBox.Name = "descriptionTextBox";
-            descriptionTextBox.Size = new Size(247, 27);
+            descriptionTextBox.Size = new Size(217, 23);
             descriptionTextBox.TabIndex = 5;
             // 
             // amountTextBox
             // 
-            amountTextBox.Location = new Point(199, 201);
-            amountTextBox.Margin = new Padding(3, 4, 3, 4);
+            amountTextBox.Location = new Point(174, 124);
             amountTextBox.Name = "amountTextBox";
-            amountTextBox.Size = new Size(247, 27);
+            amountTextBox.Size = new Size(217, 23);
             amountTextBox.TabIndex = 6;
             // 
             // transactionTypeComboBox
             // 
             transactionTypeComboBox.FormattingEnabled = true;
-            transactionTypeComboBox.Location = new Point(198, 265);
-            transactionTypeComboBox.Margin = new Padding(3, 4, 3, 4);
+            transactionTypeComboBox.Location = new Point(173, 200);
             transactionTypeComboBox.Name = "transactionTypeComboBox";
-            transactionTypeComboBox.Size = new Size(249, 28);
+            transactionTypeComboBox.Size = new Size(218, 23);
             transactionTypeComboBox.TabIndex = 7;
             // 
             // addTransactionButton
             // 
-            addTransactionButton.BackColor = Color.SteelBlue;
-            addTransactionButton.Location = new Point(495, 152);
-            addTransactionButton.Margin = new Padding(3, 4, 3, 4);
+            addTransactionButton.BackColor = SystemColors.Control;
+            addTransactionButton.Location = new Point(433, 87);
             addTransactionButton.Name = "addTransactionButton";
-            addTransactionButton.Size = new Size(232, 72);
+            addTransactionButton.Size = new Size(203, 54);
             addTransactionButton.TabIndex = 8;
             addTransactionButton.Text = "Add";
             addTransactionButton.UseVisualStyleBackColor = false;
@@ -140,7 +143,8 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(19, 328);
+            label5.Font = new Font("Segoe UI", 11F);
+            label5.Location = new Point(17, 260);
             label5.Name = "label5";
             label5.Size = new Size(143, 20);
             label5.TabIndex = 10;
@@ -149,19 +153,18 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(-6, 305);
+            label6.Location = new Point(-5, 233);
             label6.Name = "label6";
-            label6.Size = new Size(801, 20);
+            label6.Size = new Size(667, 15);
             label6.TabIndex = 11;
             label6.Text = "____________________________________________________________________________________________________________________________________";
             // 
             // deleteTransactionButton
             // 
             deleteTransactionButton.BackColor = Color.Tomato;
-            deleteTransactionButton.Location = new Point(563, 665);
-            deleteTransactionButton.Margin = new Padding(3, 4, 3, 4);
+            deleteTransactionButton.Location = new Point(493, 530);
             deleteTransactionButton.Name = "deleteTransactionButton";
-            deleteTransactionButton.Size = new Size(169, 69);
+            deleteTransactionButton.Size = new Size(148, 52);
             deleteTransactionButton.TabIndex = 12;
             deleteTransactionButton.Text = "Delete";
             deleteTransactionButton.UseVisualStyleBackColor = false;
@@ -169,10 +172,9 @@
             // 
             // showReportsButton
             // 
-            showReportsButton.Location = new Point(19, 704);
-            showReportsButton.Margin = new Padding(3, 4, 3, 4);
+            showReportsButton.Location = new Point(17, 642);
             showReportsButton.Name = "showReportsButton";
-            showReportsButton.Size = new Size(169, 31);
+            showReportsButton.Size = new Size(148, 23);
             showReportsButton.TabIndex = 13;
             showReportsButton.Text = "Show Reports";
             showReportsButton.UseVisualStyleBackColor = true;
@@ -181,20 +183,19 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 13F);
-            label7.Location = new Point(495, 241);
+            label7.Font = new Font("Segoe UI", 12F);
+            label7.Location = new Point(433, 170);
             label7.Name = "label7";
-            label7.Size = new Size(230, 30);
+            label7.Size = new Size(166, 21);
             label7.TabIndex = 14;
             label7.Text = "Current Balance: $0.00";
             // 
             // updateTransactionButton
             // 
-            updateTransactionButton.BackColor = SystemColors.Control;
-            updateTransactionButton.Location = new Point(387, 665);
-            updateTransactionButton.Margin = new Padding(3, 4, 3, 4);
+            updateTransactionButton.BackColor = Color.DodgerBlue;
+            updateTransactionButton.Location = new Point(339, 530);
             updateTransactionButton.Name = "updateTransactionButton";
-            updateTransactionButton.Size = new Size(169, 69);
+            updateTransactionButton.Size = new Size(148, 52);
             updateTransactionButton.TabIndex = 15;
             updateTransactionButton.Text = "Update";
             updateTransactionButton.UseVisualStyleBackColor = false;
@@ -205,10 +206,9 @@
             logoutButton.BackColor = Color.Firebrick;
             logoutButton.FlatStyle = FlatStyle.Flat;
             logoutButton.ForeColor = SystemColors.ControlLightLight;
-            logoutButton.Location = new Point(14, 16);
-            logoutButton.Margin = new Padding(3, 4, 3, 4);
+            logoutButton.Location = new Point(12, 12);
             logoutButton.Name = "logoutButton";
-            logoutButton.Size = new Size(83, 55);
+            logoutButton.Size = new Size(73, 41);
             logoutButton.TabIndex = 16;
             logoutButton.Text = "Logout";
             logoutButton.UseVisualStyleBackColor = false;
@@ -217,11 +217,10 @@
             // reportTypeComboBox
             // 
             reportTypeComboBox.FormattingEnabled = true;
-            reportTypeComboBox.Items.AddRange(new object[] { "Daily", "Monthly", "Yearly" });
-            reportTypeComboBox.Location = new Point(19, 665);
-            reportTypeComboBox.Margin = new Padding(3, 4, 3, 4);
+            reportTypeComboBox.Items.AddRange(new object[] { "Daily", "Weekly", "Monthly", "Yearly" });
+            reportTypeComboBox.Location = new Point(17, 613);
             reportTypeComboBox.Name = "reportTypeComboBox";
-            reportTypeComboBox.Size = new Size(169, 28);
+            reportTypeComboBox.Size = new Size(148, 23);
             reportTypeComboBox.TabIndex = 17;
             // 
             // dataGridView2
@@ -229,28 +228,91 @@
             dataGridView2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(22, 773);
-            dataGridView2.Margin = new Padding(3, 4, 3, 4);
+            dataGridView2.Location = new Point(19, 692);
             dataGridView2.Name = "dataGridView2";
-            dataGridView2.RowHeadersWidth = 51;
-            dataGridView2.Size = new Size(705, 213);
+            dataGridView2.Size = new Size(617, 174);
             dataGridView2.TabIndex = 18;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(22, 749);
+            label8.Font = new Font("Segoe UI", 11F);
+            label8.Location = new Point(19, 669);
             label8.Name = "label8";
             label8.Size = new Size(67, 20);
             label8.TabIndex = 19;
             label8.Text = "Reports :";
             // 
+            // transactionDatePicker
+            // 
+            transactionDatePicker.Format = DateTimePickerFormat.Short;
+            transactionDatePicker.Location = new Point(174, 161);
+            transactionDatePicker.Name = "transactionDatePicker";
+            transactionDatePicker.Size = new Size(217, 23);
+            transactionDatePicker.TabIndex = 20;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 11F);
+            label9.Location = new Point(19, 161);
+            label9.Name = "label9";
+            label9.Size = new Size(48, 20);
+            label9.TabIndex = 21;
+            label9.Text = "Date :";
+            // 
+            // updateAllButton
+            // 
+            updateAllButton.BackColor = Color.DodgerBlue;
+            updateAllButton.Location = new Point(339, 257);
+            updateAllButton.Name = "updateAllButton";
+            updateAllButton.Size = new Size(148, 34);
+            updateAllButton.TabIndex = 23;
+            updateAllButton.Text = "Update All";
+            updateAllButton.UseVisualStyleBackColor = false;
+            updateAllButton.Click += updateAllButton_Click;
+            // 
+            // deleteAllButton
+            // 
+            deleteAllButton.BackColor = Color.Tomato;
+            deleteAllButton.Location = new Point(493, 257);
+            deleteAllButton.Name = "deleteAllButton";
+            deleteAllButton.Size = new Size(148, 34);
+            deleteAllButton.TabIndex = 22;
+            deleteAllButton.Text = "Delete All";
+            deleteAllButton.UseVisualStyleBackColor = false;
+            deleteAllButton.Click += deleteAllButton_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(-3, 584);
+            label10.Name = "label10";
+            label10.Size = new Size(667, 15);
+            label10.TabIndex = 24;
+            label10.Text = "____________________________________________________________________________________________________________________________________";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(19, 538);
+            label11.Name = "label11";
+            label11.Size = new Size(258, 30);
+            label11.TabIndex = 25;
+            label11.Text = "To delete or update a transaction please select it\r\nfrom the datagridview above.";
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(754, 1003);
+            ClientSize = new Size(660, 878);
+            Controls.Add(label11);
+            Controls.Add(label10);
+            Controls.Add(updateAllButton);
+            Controls.Add(deleteAllButton);
+            Controls.Add(label9);
+            Controls.Add(transactionDatePicker);
             Controls.Add(label8);
             Controls.Add(dataGridView2);
             Controls.Add(reportTypeComboBox);
@@ -270,7 +332,6 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(dataGridView1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Fianacial App";
@@ -301,5 +362,11 @@
         private ComboBox reportTypeComboBox;
         private DataGridView dataGridView2;
         private Label label8;
+        private DateTimePicker transactionDatePicker;
+        private Label label9;
+        private Button updateAllButton;
+        private Button deleteAllButton;
+        private Label label10;
+        private Label label11;
     }
 }

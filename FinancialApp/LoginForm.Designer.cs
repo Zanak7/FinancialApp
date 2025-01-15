@@ -53,7 +53,7 @@
             loginButton.Location = new Point(65, 269);
             loginButton.Name = "loginButton";
             loginButton.Size = new Size(229, 66);
-            loginButton.TabIndex = 1;
+            loginButton.TabIndex = 2;
             loginButton.Text = "Login";
             loginButton.UseVisualStyleBackColor = false;
             loginButton.Click += loginButton_Click;
@@ -65,13 +65,13 @@
             label1.Location = new Point(70, 9);
             label1.Name = "label1";
             label1.Size = new Size(208, 54);
-            label1.TabIndex = 2;
+            label1.TabIndex = 4;
             label1.Text = "WELCOME";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // signupButton
             // 
-            signupButton.BackColor = Color.FloralWhite;
+            signupButton.BackColor = Color.Transparent;
             signupButton.Font = new Font("Segoe UI", 11F);
             signupButton.Location = new Point(65, 341);
             signupButton.Name = "signupButton";
@@ -88,7 +88,7 @@
             passwordTextBox.PasswordChar = '●';
             passwordTextBox.PlaceholderText = "Enter your password";
             passwordTextBox.Size = new Size(229, 23);
-            passwordTextBox.TabIndex = 4;
+            passwordTextBox.TabIndex = 1;
             // 
             // label2
             // 
