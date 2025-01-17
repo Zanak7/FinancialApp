@@ -29,40 +29,34 @@ namespace FinancialApp
                 using (var connection = new NpgsqlConnection(Session.ConnectionString))
                 {
                     connection.Open();
+
+                    // SQL query with JOIN to include user information
                     string query = @"
-                SELECT id, description, amount, date, type
-                FROM transactions
-                WHERE user_id = @user_id
-                ORDER BY date DESC;";
+                SELECT 
+                    t.id AS transaction_id,
+                    t.description,
+                    t.amount,
+                    t.date,
+                    t.type,
+                    u.name AS user_name
+                FROM 
+                    transactions t
+                INNER JOIN 
+                    users u ON t.user_id = u.id
+                WHERE 
+                    t.user_id = @user_id
+                ORDER BY 
+                    t.date DESC;";
 
                     using (var command = new NpgsqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@user_id", currentUserId);
+                        command.Parameters.AddWithValue("@user_id", currentUserId); // Filter by logged-in user
 
                         using (var adapter = new NpgsqlDataAdapter(command))
                         {
                             var dataTable = new DataTable();
                             adapter.Fill(dataTable);
-
-                            // Set the data source for the DataGridView
-                            dataGridView1.DataSource = dataTable;
-
-                            // Replace the type column with a ComboBox column
-                            if (!dataGridView1.Columns.Contains("typeComboBox"))
-                            {
-                                var comboBoxColumn = new DataGridViewComboBoxColumn
-                                {
-                                    Name = "typeComboBox",
-                                    HeaderText = "Type",
-                                    DataPropertyName = "type", // Bind to the "type" field
-                                    DataSource = new string[] { "Income", "Expense" }, // Set options
-                                    DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton // Optional, for cleaner UI
-                                };
-
-                                // Remove existing type column and add the ComboBox column
-                                dataGridView1.Columns.Remove("type");
-                                dataGridView1.Columns.Add(comboBoxColumn);
-                            }
+                            dataGridView1.DataSource = dataTable; // Bind result to the DataGridView
                         }
                     }
                 }
@@ -72,6 +66,7 @@ namespace FinancialApp
                 MessageBox.Show($"An error occurred while loading data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void UpdateCurrentBalance()
